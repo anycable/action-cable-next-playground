@@ -1,0 +1,10 @@
+anycable-go-*
+k6
+
+.rails-path
+.anycable-path
+
+bin/dist
+!bin/dist/.keep
+
+Gemfile.lock

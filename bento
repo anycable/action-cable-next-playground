@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+
+$stdout.puts "YJIT is enabled 🎉" if RUBY_DESCRIPTION =~ /\+YJIT/
+
+require "optparse"
+
+$benchmark_server = :puma
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: bento [options]"
+
+  opts.on('--puma', 'Run Rails via Puma server') do |v|
+    $benchmark_server = :puma
+  end
+
+  opts.on('--anycable', 'Run AnyCable RPC server') do |v|
+    $benchmark_server = :anycable
+  end
+
+  opts.on('--falcon', 'Run Falcon/Async server') do |v|
+    $benchmark_server = :falcon
+  end
+end.parse!
+
+require_relative "lib/application"
+
+$stdout.puts "⚡️ Running Action Cable via #{$benchmark_server}"
+
+BenchmarkServer.run!

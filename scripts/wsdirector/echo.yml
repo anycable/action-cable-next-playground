@@ -1,0 +1,15 @@
+- client:
+    multiplier: ":scale"
+    protocol: "action_cable"
+    actions:
+      - subscribe:
+          channel: "BenchmarkChannel"
+      - perform:
+          channel: "BenchmarkChannel"
+          action: "echo"
+          data:
+            text: "ping"
+      - receive:
+          channel: "BenchmarkChannel"
+          data:
+            text: "ping"

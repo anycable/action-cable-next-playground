@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+
+APP_PATH = File.expand_path("../lib/application", __dir__)
+
+require_relative APP_PATH
+
+Dir.chdir(File.dirname(APP_PATH))
+
+require "rails/commands"
