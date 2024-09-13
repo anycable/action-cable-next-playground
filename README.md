@@ -42,6 +42,8 @@ $ bundle exec bento --anycable
 
 ## Tests
 
+### Smoke tests
+
 You can run basic smoke tests via [wsdirector][] as follows (NOTE: the server must be running):
 
 ```sh
@@ -64,5 +66,28 @@ Group listener: 40 clients, 0 failures
 
 ```
 
+### Conformance tests
+
+We use [AnyT][] to run Action Cable conformance tests. We use make files to encapsulate difference between different server configurations, for example:
+
+```sh
+$ make anyt-puma
+
+Starting AnyT v1.4.0 (pid: 21243)
+
+Subscription aknowledgement
+  Client receives subscription confirmation                       PASS (0.52s)
+
+Subscription aknowledgement
+  Client receives subscription rejection                          PASS (0.51s)
+
+...
+
+32 tests, 80 assertions, 0 failures, 0 errors, 1 skips
+```
+
+You can run specific tests by name via the `ANYT_FILTER_TESTS=<query>` env var. To see all scenarios, run `bundle exec anyt -l`.
+
 [the-pr]: https://github.com/rails/rails/pull/50979
 [wsdirector]: https://github.com/palkan/wsdirector
+[AnyT]: https://github.com/anycable/anyt

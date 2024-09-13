@@ -46,5 +46,6 @@ end
 
 # Tools
 gem "wsdirector-cli", require: false
+gem "anyt", "~> 1.4", require: false
 
 gem "debug" unless ENV["CI"]

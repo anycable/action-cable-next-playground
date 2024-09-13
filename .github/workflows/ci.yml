@@ -8,7 +8,38 @@ on:
   workflow_dispatch:
 
 jobs:
-  wsdirector:
+  smoke:
+    if: ${{ !contains(github.event.head_commit.message, '[ci skip]') }}
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
+      CI: true
+    services:
+      redis:
+        image: redis:7.0-alpine
+        ports: ["6379:6379"]
+        options: --health-cmd="redis-cli ping" --health-interval 1s --health-timeout 3s --health-retries 30
+    strategy:
+      fail-fast: false
+      matrix:
+        server: ["puma", "anycable"]
+        scenario: ["echo", "broadcast"]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.3
+        bundler-cache: true
+    - name: Run server
+      run: |
+        bundle exec bento --${{ matrix.server }} &
+        bin/wait_tcp 8080
+    - name: Run WS director scenario
+      run: |
+        SCENARIO=${{ matrix.scenario }} make wsdirector
+
+  conformance:
     if: ${{ !contains(github.event.head_commit.message, '[ci skip]') }}
     runs-on: ubuntu-latest
     env:
@@ -30,13 +61,6 @@ jobs:
       with:
         ruby-version: 3.3
         bundler-cache: true
-    - name: Run server
+    - name: Run conformance tests via AnyT
       run: |
-        bundle exec bento --${{ matrix.server }} &
-        bin/wait_tcp 8080
-    - name: Run echo scenario
-      run: |
-        SCENARIO=echo make wsdirector
-    - name: Run broadcast scenario
-      run: |
-        SCENARIO=broadcast make wsdirector
+        make anyt-${{ matrix.server }}
