@@ -25,7 +25,7 @@ bin/dist/anycable-go:
 	@bin/anycable-go -v
 
 anyt-puma:
-	@bundle exec anyt --self-check
+	@bundle exec anyt --self-check --require=scripts/anyt/rails/*.rb
 
 anyt-anycable: bin/dist/anycable-go
 	ANYCABLE_HEADERS=cookie,x-api-token \

@@ -15,6 +15,7 @@ jobs:
       BUNDLE_JOBS: 4
       BUNDLE_RETRY: 3
       CI: true
+      RAILS_VERSION: ${{ matrix.rails_version }}
     services:
       redis:
         image: redis:7.0-alpine
@@ -25,6 +26,7 @@ jobs:
       matrix:
         server: ["puma", "anycable"]
         scenario: ["echo", "broadcast"]
+        rails_version: ["dev", "7"]
     steps:
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
@@ -46,6 +48,7 @@ jobs:
       BUNDLE_JOBS: 4
       BUNDLE_RETRY: 3
       CI: true
+      RAILS_VERSION: ${{ matrix.rails_version }}
     services:
       redis:
         image: redis:7.0-alpine
@@ -55,6 +58,7 @@ jobs:
       fail-fast: false
       matrix:
         server: ["puma", "anycable"]
+        rails_version: ["dev", "7"]
     steps:
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
