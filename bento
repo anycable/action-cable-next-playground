@@ -30,6 +30,6 @@ end.parse!
 
 require_relative "lib/application"
 
-$stdout.puts "⚡️ Running Action Cable via #{$benchmark_server}"
+$stdout.puts "⚡️ Running Action Cable #{Rails::VERSION::STRING} via #{$benchmark_server}"
 
 BenchmarkServer.run!
