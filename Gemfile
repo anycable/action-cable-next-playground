@@ -17,10 +17,13 @@ end
 
 # Baseline setup: Puma + Redis pub/sub
 gem "puma", "~> 6.4"
-gem "redis", "~> 5.0", group: :preload
+gem "redis", "~> 5.0"
 
 # Async setup
 # TODO
+
+# Iodine
+gem "iodine", require: false
 
 # AnyCable setup
 gem "grpc_kit" if ENV["ANYCABLE_GRPC_IMPL"] == "grpc_kit"

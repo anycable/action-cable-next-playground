@@ -31,4 +31,7 @@ anyt-anycable: bin/dist/anycable-go
 	ANYCABLE_HEADERS=cookie,x-api-token \
 	bundle exec anyt -c "bin/dist/anycable-go" --target-url="ws://localhost:8080/cable"
 
+anyt-iodine:
+	@bundle exec anyt --self-check --require=scripts/anyt/rails/*.rb --rails-command="bundle exec iodine -p 9292 -t 5 -w 2 %{config}" --except=features/server_restart
+
 .PHONY: websocket-bench

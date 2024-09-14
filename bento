@@ -22,6 +22,10 @@ OptionParser.new do |opts|
   opts.on('--falcon', 'Run Falcon/Async server') do |v|
     $benchmark_server = :falcon
   end
+
+  opts.on('--iodine', 'Run Iodine server') do |v|
+    $benchmark_server = :iodine
+  end
 end.parse!
 
 require_relative "lib/application"

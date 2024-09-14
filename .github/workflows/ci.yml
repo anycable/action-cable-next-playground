@@ -27,6 +27,10 @@ jobs:
         server: ["puma", "anycable"]
         scenario: ["echo", "broadcast"]
         rails_version: ["dev", "7"]
+        include:
+          - server: "iodine"
+            rails_version: "dev"
+            scenario: "broadcast"
     steps:
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
@@ -59,6 +63,9 @@ jobs:
       matrix:
         server: ["puma", "anycable"]
         rails_version: ["dev", "7"]
+        include:
+          - server: "iodine"
+            rails_version: "dev"
     steps:
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1

@@ -38,6 +38,13 @@ $ bundle exec bento --anycable
 2024-09-13 10:07:54.272 INF Starting AnyCable 1.5.3-56288f0 (pid: 37818, open file limit: 122880, gomaxprocs: 8) nodeid=NFoelH
 
 ...
+
+# Iodine
+$ bundle exec bento --iodine
+
+⚡️ Running Action Cable via iodine
+
+...
 ```
 
 ## Tests
