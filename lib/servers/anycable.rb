@@ -3,10 +3,7 @@
 require "redis"
 require "anycable-rails"
 
-ActionCable.server.config.cable = {
-  "adapter" => $benchmark_server == :anycable ? "any_cable" : "redis",
-  "url" => ENV["REDIS_URL"]
-}
+ActionCable.server.config.cable = {"adapter" => "any_cable"}
 
 class BenchmarkServer
   def self.run!

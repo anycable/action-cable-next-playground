@@ -20,7 +20,9 @@ gem "puma", "~> 6.4"
 gem "redis", "~> 5.0"
 
 # Async setup
-# TODO
+gem "falcon"
+gem "async-websocket"
+gem "async-redis"
 
 # Iodine
 gem "iodine", require: false

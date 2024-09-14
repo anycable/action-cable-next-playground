@@ -1,12 +1,21 @@
 # frozen_string_literal: true
 
 require "iodine"
+require "redis"
 
 module ActionCable
   module SubscriptionAdapter
     class Iodine < Base
+      def initialize(*)
+        super
+        @redis = ::Redis.new
+      end
+
       def broadcast(channel, payload)
-        ::Iodine.publish(channel, payload)
+        # FIXME: Doesn't publis to Redis when executed outside of the Iodine server
+        # (e.g., from AnyT tests)
+        # ::Iodine.publish(channel, payload)
+        @redis.publish(channel, payload)
       end
     end
   end
@@ -136,8 +145,9 @@ module ActionCable
         logger.debug "[Iodine] connection shutdown"
         conn.write(
           coder.encode({
-            type: :shutdown,
-            reason: ::ActionCable::INTERNAL[:disconnect_reasons][:server_restart]
+            type: :disconnect,
+            reason: ::ActionCable::INTERNAL[:disconnect_reasons][:server_restart],
+            reconnect: true
           })
         )
       end
@@ -153,7 +163,9 @@ module ActionCable
         end
       end
 
-      def transmit(data) = client&.write(coder.encode(data))
+      def transmit(data)
+        client&.write(coder.encode(data))
+      end
 
       def close = client&.close
 
@@ -164,6 +176,7 @@ module ActionCable
   end
 end
 
+Iodine::PubSub.default = Iodine::PubSub::Redis.new("redis://localhost:6379")
 ActionCable.server.config.pubsub_adapter = "ActionCable::SubscriptionAdapter::Iodine"
 
 class BenchmarkServer

@@ -32,6 +32,14 @@ anyt-anycable: bin/dist/anycable-go
 	bundle exec anyt -c "bin/dist/anycable-go" --target-url="ws://localhost:8080/cable"
 
 anyt-iodine:
-	@bundle exec anyt --self-check --require=scripts/anyt/rails/*.rb --rails-command="bundle exec iodine -p 9292 -t 5 -w 2 %{config}" --except=features/server_restart
+	@bundle exec anyt --self-check --require="{lib/servers/iodine.rb,scripts/anyt/rails/*.rb}" \
+		--rails-command="bundle exec iodine scripts/anyt/iodine.ru -p 9292 -t 5 -w 2" \
+		--except=streams/single
+
+anyt-falcon:
+	ACTION_CABLE_ADAPTER=redis \
+	bundle exec anyt --self-check --require="{lib/servers/falcon.rb,scripts/anyt/rails/*.rb}" \
+		--rails-command="bundle exec ruby scripts/anyt/falcon.rb" \
+		--except=features/server_restart,request/disconnection,features/channel_state
 
 .PHONY: websocket-bench

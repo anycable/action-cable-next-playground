@@ -44,6 +44,13 @@ $ bundle exec bento --anycable
 
 ...
 
+# Falcon
+$ bundle exec bento --falcon
+
+⚡️ Running Action Cable via falcon
+
+...
+
 # Iodine
 $ bundle exec bento --iodine
 

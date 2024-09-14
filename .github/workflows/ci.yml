@@ -31,6 +31,9 @@ jobs:
           - server: "iodine"
             rails_version: "dev"
             scenario: "broadcast"
+          - server: "falcon"
+            rails_version: "dev"
+            scenario: "broadcast"
     steps:
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
@@ -65,6 +68,8 @@ jobs:
         rails_version: ["dev", "7"]
         include:
           - server: "iodine"
+            rails_version: "dev"
+          - server: "falcon"
             rails_version: "dev"
     steps:
     - uses: actions/checkout@v4
