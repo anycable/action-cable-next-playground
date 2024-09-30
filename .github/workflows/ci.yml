@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-    - master
+      - master
   pull_request:
   workflow_dispatch:
 
@@ -16,6 +16,7 @@ jobs:
       BUNDLE_RETRY: 3
       CI: true
       RAILS_VERSION: ${{ matrix.rails_version }}
+      NEXT_ACTION_CABLE: ${{ matrix.next }}
     services:
       redis:
         image: redis:7.0-alpine
@@ -26,27 +27,30 @@ jobs:
       matrix:
         server: ["puma", "anycable"]
         scenario: ["echo", "broadcast"]
-        rails_version: ["dev", "7"]
+        rails_version: ["~> 7.0", "~> 8.0.0.beta1"]
+        next: ["0", "1"]
         include:
           - server: "iodine"
-            rails_version: "dev"
+            rails_version: "~> 8.0.0.beta1"
             scenario: "broadcast"
+            next: "1"
           - server: "falcon"
-            rails_version: "dev"
+            rails_version: "~> 8.0.0.beta1"
             scenario: "broadcast"
+            next: "1"
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 3.3
-        bundler-cache: true
-    - name: Run server
-      run: |
-        bundle exec bento --${{ matrix.server }} &
-        bin/wait_tcp 8080
-    - name: Run WS director scenario
-      run: |
-        SCENARIO=${{ matrix.scenario }} make wsdirector
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+      - name: Run server
+        run: |
+          bundle exec bento --${{ matrix.server }} &
+          bin/wait_tcp 8080
+      - name: Run WS director scenario
+        run: |
+          SCENARIO=${{ matrix.scenario }} make wsdirector
 
   conformance:
     if: ${{ !contains(github.event.head_commit.message, '[ci skip]') }}
@@ -56,6 +60,7 @@ jobs:
       BUNDLE_RETRY: 3
       CI: true
       RAILS_VERSION: ${{ matrix.rails_version }}
+      NEXT_ACTION_CABLE: ${{ matrix.next }}
     services:
       redis:
         image: redis:7.0-alpine
@@ -65,18 +70,21 @@ jobs:
       fail-fast: false
       matrix:
         server: ["puma", "anycable"]
-        rails_version: ["dev", "7"]
+        rails_version: ["~> 7.0", "~> 8.0.0.beta1"]
+        next: ["0", "1"]
         include:
           - server: "iodine"
-            rails_version: "dev"
+            rails_version: "~> 8.0.0.beta1"
+            next: "1"
           - server: "falcon"
-            rails_version: "dev"
+            rails_version: "~> 8.0.0.beta1"
+            next: "1"
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 3.3
-        bundler-cache: true
-    - name: Run conformance tests via AnyT
-      run: |
-        make anyt-${{ matrix.server }}
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+      - name: Run conformance tests via AnyT
+        run: |
+          make anyt-${{ matrix.server }}

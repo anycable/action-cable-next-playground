@@ -30,6 +30,8 @@ end.parse!
 
 require_relative "lib/application"
 
-$stdout.puts "⚡️ Running Action Cable #{Rails::VERSION::STRING} via #{$benchmark_server}"
+desc = defined?(ActionCableNext) ? "Action Cable Next #{ActionCableNext::VERSION} on Rails #{Rails::VERSION::STRING}" : "Action Cable #{Rails::VERSION::STRING}"
+
+$stdout.puts "⚡️ Running #{desc} via #{$benchmark_server}"
 
 BenchmarkServer.run!

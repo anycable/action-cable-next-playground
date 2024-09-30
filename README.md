@@ -1,4 +1,4 @@
-# Action Cable 8 playground
+# Action Cable Next playground
 
 This is a support project for the Action Server adapterization happening here: [rails/rails#50979][the-pr].
 
