@@ -35,6 +35,10 @@ ActionCable.server.config.connection_class = -> { ApplicationCable::Connection }
 ActionCable.server.config.disable_request_forgery_protection = true
 ActionCable.server.config.logger = Rails.logger
 
+if ENV["FASTLANE"] == "true"
+  ActionCable.server.config.fastlane_broadcasts_enabled = true
+end
+
 # Load server configuration
 require_relative "servers/#{$benchmark_server}" if defined?($benchmark_server)
 

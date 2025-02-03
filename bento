@@ -30,7 +30,7 @@ end.parse!
 
 require_relative "lib/application"
 
-desc = defined?(ActionCableNext) ? "Action Cable Next #{ActionCableNext::VERSION} on Rails #{Rails::VERSION::STRING}" : "Action Cable #{Rails::VERSION::STRING}"
+desc = defined?(ActionCableNext) ? "Action Cable Next #{ActionCableNext::VERSION} (fastlane broadcasts: #{ActionCable.server.config.fastlane_broadcasts_enabled}) on Rails #{Rails::VERSION::STRING}" : "Action Cable #{Rails::VERSION::STRING}"
 
 $stdout.puts "⚡️ Running #{desc} via #{$benchmark_server}"
 

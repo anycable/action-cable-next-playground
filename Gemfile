@@ -19,7 +19,7 @@ elsif File.file?(File.join(__dir__, ".rails-revision"))
   git, branch = *File.read(File.join(__dir__, ".rails-revision")).strip.split("#", 2)
   gem "rails", git:, branch:
 else
-  gem "rails", ENV.fetch("RAILS_VERSION", "~> 7.0")
+  gem "rails", ENV.fetch("RAILS_VERSION", "~> 8.0")
 end
 
 # Baseline setup: Puma + Redis pub/sub
