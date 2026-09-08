@@ -37,6 +37,8 @@ ActionCable.server.config.logger = Rails.logger
 
 if ENV["FASTLANE"] == "true"
   ActionCable.server.config.fastlane_broadcasts_enabled = true
+elsif ENV["FASTLANE"] == "false"
+  ActionCable.server.config.fastlane_broadcasts_enabled = false
 end
 
 # Load server configuration
