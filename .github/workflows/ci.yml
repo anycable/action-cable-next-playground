@@ -27,15 +27,15 @@ jobs:
       matrix:
         server: ["puma", "anycable"]
         scenario: ["echo", "broadcast"]
-        rails_version: ["~> 7.0", "~> 8.0.0.beta1"]
+        rails_version: ["~> 7.0", "~> 8.1.0"]
         next: ["0", "1"]
         include:
           - server: "iodine"
-            rails_version: "~> 8.0.0.beta1"
+            rails_version: "~> 8.1.0"
             scenario: "broadcast"
             next: "1"
           - server: "falcon"
-            rails_version: "~> 8.0.0.beta1"
+            rails_version: "~> 8.1.0"
             scenario: "broadcast"
             next: "1"
     steps:
@@ -70,14 +70,14 @@ jobs:
       fail-fast: false
       matrix:
         server: ["puma", "anycable"]
-        rails_version: ["~> 7.0", "~> 8.0.0.beta1"]
+        rails_version: ["~> 7.0", "~> 8.1.0"]
         next: ["0", "1"]
         include:
           - server: "iodine"
-            rails_version: "~> 8.0.0.beta1"
+            rails_version: "~> 8.1.0"
             next: "1"
           - server: "falcon"
-            rails_version: "~> 8.0.0.beta1"
+            rails_version: "~> 8.1.0"
             next: "1"
     steps:
       - uses: actions/checkout@v4
